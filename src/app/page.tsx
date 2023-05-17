@@ -1,27 +1,33 @@
 "use client";
-import { styled } from "styled-components";
+import { useRouter } from "next/navigation";
+import {
+  HomePageContainer,
+  HomePageLogo,
+  HomePageSearchButton,
+  HomePageSearchContainer,
+  HomePageSearchContent,
+  HomePageSearchInput,
+} from "./page-styles";
 
-const Button = styled.button`
-  display: inline-block;
-  color: palevioletred;
-  font-size: 1em;
-  margin: 1em;
-  padding: 0.25em 1em;
-  border: 2px solid palevioletred;
-  border-radius: 3px;
-  display: block;
-  cursor: pointer;
+export default function HomePage() {
+  const router = useRouter();
 
-  &:hover {
-    background-color: grey;
-  }
-`;
-
-export default function Home() {
   return (
-    <div>
-      <h1>Home</h1>
-      <Button>styled button</Button>
-    </div>
+    <HomePageContainer>
+      <HomePageLogo
+        src="/axur-logo.png"
+        width={500}
+        height={500}
+        alt="Picture of the author"
+      />
+      <HomePageSearchContent>
+        <HomePageSearchContainer>
+          <HomePageSearchInput type="text" placeholder="keyword" />
+          <HomePageSearchButton onClick={() => {}}>
+            <i className="fa fa-search" aria-hidden="true"></i>
+          </HomePageSearchButton>
+        </HomePageSearchContainer>
+      </HomePageSearchContent>
+    </HomePageContainer>
   );
 }
