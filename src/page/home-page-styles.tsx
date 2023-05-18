@@ -12,7 +12,7 @@ export const HomePageContainer = styled.div`
 
 export const HomePageSearchContent = styled.div`
   display: flex;
-  margin-top: 40px;
+  margin: 40px 0px 40px 0px;
 `;
 
 export const HomePageSearchContainer = styled.div`
@@ -30,6 +30,7 @@ export const HomePageSearchContainer = styled.div`
   width: auto;
   max-width: 584px;
   padding: 0px 0px 0px 16px;
+
   &:hover {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
@@ -70,4 +71,51 @@ export const HomePageLogo = styled(Image)`
   height: 92px;
   aspect-ratio: auto 272 / 92;
   width: 272px;
+`;
+
+export const HomePageCrawlContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  width: 80%;
+  align-items: center;
+`;
+
+export const Accordion = styled.button`
+  display: flex;
+  height: inherit;
+  background-color: #fff;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  font-size: 24px;
+
+  &:hover {
+    background-color: #e9e9e9;
+  }
+`;
+
+export const Panel = styled.div<{ active: boolean }>`
+  display: flex;
+  padding: 0 18px;
+  background-color: #fff6eb;
+  max-height: 0;
+  overflow: hidden;
+  box-shadow: 0 0px 1px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 0px 0px 8px 8px;
+  padding: 16px;
+  margin-top: 1px;
+  display: none;
+
+  ${(props) =>
+    props.active &&
+    `max-height: 999px; 
+    display: flex;
+  `}
 `;
