@@ -2,19 +2,10 @@
 import { CONSTANT } from "@/constant/constant";
 import { CrawlModel } from "@/model/crawl";
 import { CrawlServiceModel } from "@/model/crawl-service";
-import _orderby from "lodash.orderby";
 import { useEffect, useState } from "react";
-import {
-  Accordion,
-  HomePageContainer,
-  HomePageCrawlContainer,
-  HomePageLogo,
-  HomePageSearchButton,
-  HomePageSearchContainer,
-  HomePageSearchContent,
-  HomePageSearchInput,
-  Panel,
-} from "./home-page-styles";
+import { HomeCrawlList } from "./home-crawl-list/home-crawl-list";
+import { HomePageContainer, HomePageLogo } from "./home-page-styles";
+import HomeSearch from "./home-search/home-search";
 
 const { CRAWLS } = CONSTANT.LOCAL_STORAGE;
 
@@ -83,39 +74,16 @@ export default function HomePage({ crawlService }: HomePageProps) {
         alt="axur-logo"
         data-testid="axur-logo"
       />
-      <HomePageSearchContent>
-        <HomePageSearchContainer>
-          <HomePageSearchInput
-            type="text"
-            placeholder="keyword"
-            value={keyword}
-            onChange={(event) => {
-              setKeyword(event.target.value);
-            }}
-          />
-          <HomePageSearchButton onClick={handleSearchClick}>
-            <i className="fa fa-search" aria-hidden="true"></i>
-          </HomePageSearchButton>
-        </HomePageSearchContainer>
-      </HomePageSearchContent>
-      <>
-        {_orderby(crawls, "created_at", "desc").map((crawl: CrawlModel) => (
-          <HomePageCrawlContainer>
-            <Accordion
-              key={crawl.id}
-              onClick={() => handleAccordionClick(crawl.id)}
-            >
-              {crawl.keyword}
-            </Accordion>
-            <Panel active={selectedAccordionId === crawl.id}>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </Panel>
-          </HomePageCrawlContainer>
-        ))}
-      </>
+      <HomeSearch
+        keyword={keyword}
+        setKeyword={setKeyword}
+        onSearchClick={handleSearchClick}
+      />
+      <HomeCrawlList
+        crawls={crawls}
+        onAccordionClick={handleAccordionClick}
+        selectedAccordionId={selectedAccordionId}
+      />
     </HomePageContainer>
   );
 }
