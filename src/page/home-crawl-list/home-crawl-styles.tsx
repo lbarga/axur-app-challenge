@@ -10,6 +10,7 @@ export const HomeCrawlContainer = styled.div`
 
 export const HomeCrawlAccordion = styled.button`
   display: flex;
+  justify-content: space-between;
   height: inherit;
   background-color: #fff;
   cursor: pointer;
@@ -18,7 +19,7 @@ export const HomeCrawlAccordion = styled.button`
   border: none;
   text-align: left;
   outline: none;
-  font-size: 15px;
+  font-size: 24px;
   border-radius: 8px;
   box-shadow: 0 0px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   font-size: 24px;
@@ -113,4 +114,9 @@ export const HomeCrawlLoader = styled.i`
   font-size: 80px;
   justify-content: center;
   align-items: center;
+`;
+
+export const HomeCrawlKeyword = styled.div`
+  display: flex;
+  width: 48px;
 `;

@@ -1,10 +1,12 @@
 "use client";
 import { CrawlDataModel, CrawlModel } from "@/model/crawl";
+import { normalizeDate } from "@/utils/date-formatter";
 import _orderby from "lodash.orderby";
 import {
   HomeCrawlAccordion,
   HomeCrawlContainer,
   HomeCrawlEmptyContainer,
+  HomeCrawlKeyword,
   HomeCrawlLoader,
   HomeCrawlPanel,
   HomeCrawlPanelContainer,
@@ -38,7 +40,8 @@ export const HomeCrawlList = ({
         return (
           <HomeCrawlContainer key={crawl.id}>
             <HomeCrawlAccordion onClick={() => onAccordionClick(crawl.id)}>
-              {crawl.keyword}
+              <HomeCrawlKeyword>{crawl.keyword}</HomeCrawlKeyword>
+              <div>{normalizeDate(crawl.created_at)}</div>
               {isActive && (
                 <i className="fa fa-chevron-up" aria-hidden="true"></i>
               )}
