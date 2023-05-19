@@ -96,6 +96,8 @@ export const HomeCrawlStatusTag = styled.div<{ status: "active" | "done" }>`
   font-size: 13px;
   font-weight: bold;
   color: #ffffff;
+  width: 48px;
+  justify-content: center;
 
   ${(props) => props.status === "active" && `background-color: #e94f1f;`}
   ${(props) => props.status === "done" && `background-color:#239a00;`}
