@@ -19,6 +19,7 @@ export default function HomePage({ crawlService }: HomePageProps) {
   const [selectedAccordionId, setSelectedAccordionId] = useState("");
   const [loading, setLoading] = useState(false);
   const [currentCrawl, setCurrentCrawl] = useState<CrawlDataModel>();
+  const [lessThan3Letters, setLessThan3Letters] = useState(false);
 
   const fetchCrawls = () => {
     const crawlsString = localStorage.getItem(CRAWLS) || "[]";
@@ -48,6 +49,14 @@ export default function HomePage({ crawlService }: HomePageProps) {
   };
 
   const handleSearchClick = async () => {
+    if (keyword.length <= 3) {
+      setLessThan3Letters(true);
+
+      return;
+    }
+
+    setLessThan3Letters(false);
+
     const {
       status,
       data: { id },
@@ -82,6 +91,14 @@ export default function HomePage({ crawlService }: HomePageProps) {
     fetchCurrentCrawl(crawlId);
   };
 
+  const handleClearAllClick = () => {
+    const empty = JSON.stringify([]);
+
+    localStorage.setItem(CRAWLS, empty);
+
+    fetchCrawls();
+  };
+
   useEffect(() => {
     fetchCrawls();
   }, []);
@@ -99,6 +116,8 @@ export default function HomePage({ crawlService }: HomePageProps) {
         keyword={keyword}
         setKeyword={setKeyword}
         onSearchClick={handleSearchClick}
+        lessThan3Letters={lessThan3Letters}
+        onClearAllClick={handleClearAllClick}
       />
       <HomeCrawlList
         crawls={crawls}

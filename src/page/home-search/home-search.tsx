@@ -1,24 +1,27 @@
 "use client";
-import { CONSTANT } from "@/constant/constant";
 import {
   HomePageSearchButton,
   HomePageSearchContainer,
   HomePageSearchInput,
+  HomeSearchClearAllButton,
   HomeSearchContent,
+  HomeSearchError,
 } from "./home-search-styles";
-
-const { CRAWLS } = CONSTANT.LOCAL_STORAGE;
 
 type HomeSearchProps = {
   keyword: string;
   setKeyword: (value: string) => void;
   onSearchClick: () => void;
+  lessThan3Letters: boolean;
+  onClearAllClick: () => void;
 };
 
 export default function HomeSearch({
   keyword,
   setKeyword,
   onSearchClick,
+  lessThan3Letters,
+  onClearAllClick,
 }: HomeSearchProps) {
   return (
     <HomeSearchContent>
@@ -35,6 +38,16 @@ export default function HomeSearch({
           <i className="fa fa-search" aria-hidden="true"></i>
         </HomePageSearchButton>
       </HomePageSearchContainer>
+      <>
+        {lessThan3Letters && (
+          <HomeSearchError>
+            *field 'keyword' is required (from 4 up to 32 chars)
+          </HomeSearchError>
+        )}
+      </>
+      <HomeSearchClearAllButton onClick={onClearAllClick}>
+        clear all
+      </HomeSearchClearAllButton>
     </HomeSearchContent>
   );
 }

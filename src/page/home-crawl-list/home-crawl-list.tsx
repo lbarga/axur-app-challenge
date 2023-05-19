@@ -49,6 +49,7 @@ export const HomeCrawlList = ({
             <HomeCrawlPanel
               isactive={isActive.toString()}
               status={currentCrawl?.status || "active"}
+              loading={loading.toString()}
             >
               <HomeCrawlPanelContainer>
                 {loading && (
@@ -65,6 +66,9 @@ export const HomeCrawlList = ({
                       >
                         {currentCrawl?.status}
                       </HomeCrawlStatusTag>
+                      <div>
+                        <p>Links found: {currentCrawl?.urls.length} </p>
+                      </div>
                       {currentCrawl?.status === "active" && (
                         <HomeCrawlRefreshButton
                           onClick={() => onClickRefresh(crawl.id)}
@@ -72,17 +76,28 @@ export const HomeCrawlList = ({
                           <i className="fa fa-refresh" aria-hidden="true"></i>
                         </HomeCrawlRefreshButton>
                       )}
+                      {currentCrawl?.status !== "active" && <div />}
                     </HomeCrawlStatusContainer>
                     {currentCrawl?.urls.map((url) => (
                       <a href={url} key={url}>
                         {url}
                       </a>
                     ))}
-                    {currentCrawl?.urls.length === 0 && (
-                      <HomeCrawlEmptyContainer>
-                        <p>We did not find any records for your search.</p>
-                      </HomeCrawlEmptyContainer>
-                    )}
+                    {currentCrawl?.urls.length === 0 &&
+                      currentCrawl.status !== "active" && (
+                        <HomeCrawlEmptyContainer>
+                          <p>We did not find any records for your search.</p>
+                        </HomeCrawlEmptyContainer>
+                      )}
+                    {currentCrawl?.urls.length === 0 &&
+                      currentCrawl.status === "active" && (
+                        <HomeCrawlEmptyContainer>
+                          <p>
+                            we are carrying out your search you can see updates
+                            by clicking on the refresh button.
+                          </p>
+                        </HomeCrawlEmptyContainer>
+                      )}
                   </>
                 )}
               </HomeCrawlPanelContainer>

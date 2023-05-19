@@ -2,7 +2,10 @@ import styled from "styled-components";
 
 export const HomeSearchContent = styled.div`
   display: flex;
+  flex-direction: column;
   margin: 40px 0px 40px 0px;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const HomePageSearchContainer = styled.div`
@@ -20,6 +23,7 @@ export const HomePageSearchContainer = styled.div`
   width: auto;
   max-width: 584px;
   padding: 0px 0px 0px 16px;
+  margin-bottom: 16px;
 
   &:hover {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -49,5 +53,30 @@ export const HomePageSearchButton = styled.div`
   &:hover {
     font-weight: bold;
     background-color: #ff7300;
+  }
+`;
+
+export const HomeSearchError = styled.p`
+  margin: 0px;
+  display: flex;
+  color: red;
+  font-size: 12px;
+  margin-bottom: 16px;
+`;
+
+export const HomeSearchClearAllButton = styled.button`
+  display: flex;
+  border: none;
+  background-color: #ff0000;
+  font-size: 16px;
+  border-radius: 16px;
+  font-weight: bold;
+  padding: 6px;
+  color: #ffffff;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ff2121;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
 `;

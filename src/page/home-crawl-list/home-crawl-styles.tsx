@@ -33,6 +33,7 @@ export const HomeCrawlAccordion = styled.button`
 export const HomeCrawlPanel = styled.div<{
   isactive: string;
   status: "active" | "done";
+  loading: string;
 }>`
   display: flex;
   padding: 0 18px;
@@ -45,9 +46,20 @@ export const HomeCrawlPanel = styled.div<{
   width: -webkit-fill-available;\
 
   ${(props) => props.isactive === "true" && `max-height: 9999px;`}
-  ${(props) => props.status === "active" && `background-color: #fff6eb;`}
-  ${(props) => props.status === "done" && `background-color: #f1fff2;`}
-`;
+  ${(props) => {
+    if (props.loading === "true") {
+      return "background-color: #fff;";
+    }
+
+    if (props.status === "active") {
+      return `background-color: #fff6eb;`;
+    }
+
+    if (props.status === "done") {
+      return "background-color: #f1fff2;";
+    }
+  }}
+  `;
 
 export const HomeCrawlPanelContainer = styled.div`
   display: flex;
