@@ -3,3 +3,9 @@ export type CrawlModel = {
   id: string;
   created_at: string;
 };
+
+export type CrawlDataModel = {
+  id: string;
+  status: "active" | "done";
+  urls: string[];
+};
