@@ -28,8 +28,6 @@ export default function HomePage({ crawlService }: HomePageProps) {
   };
 
   const fetchCurrentCrawl = async (crawlId: string) => {
-    console.log("crawlId: ", crawlId);
-
     setLoading(true);
 
     const response = await crawlService.getCrawl(crawlId);
@@ -38,8 +36,6 @@ export default function HomePage({ crawlService }: HomePageProps) {
       setLoading(false);
 
       setCurrentCrawl(response.data);
-
-      console.log("response.data: ", response.data);
     }
   };
 
