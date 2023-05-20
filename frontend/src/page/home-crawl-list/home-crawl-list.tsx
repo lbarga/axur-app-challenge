@@ -1,4 +1,5 @@
 "use client";
+import Loader from "@/component/loader/loader";
 import { STRING } from "@/constant/string";
 import { CrawlDataModel } from "@/model/crawl-model";
 import { CrawlerModel } from "@/model/crawler-model";
@@ -9,7 +10,6 @@ import {
   HomeCrawlContainer,
   HomeCrawlEmptyContainer,
   HomeCrawlKeyword,
-  HomeCrawlLoader,
   HomeCrawlPanel,
   HomeCrawlPanelContainer,
   HomeCrawlRefreshButton,
@@ -29,7 +29,7 @@ type HomeCrawlListProps = {
 const { LINKS_FOUND, NOT_FOUND_RECORDS, CARRYING_OUT_SEARCH } = STRING;
 
 export const HomeCrawlList = ({
-  crawlers: crawls,
+  crawlers,
   onAccordionClick,
   selectedAccordionId,
   loading,
@@ -38,7 +38,7 @@ export const HomeCrawlList = ({
 }: HomeCrawlListProps) => {
   return (
     <>
-      {_orderby(crawls, "created_at", "desc").map((crawl: CrawlerModel) => {
+      {_orderby(crawlers, "created_at", "desc").map((crawl: CrawlerModel) => {
         const isActive = selectedAccordionId === crawl.crawler_id;
 
         return (
@@ -62,12 +62,7 @@ export const HomeCrawlList = ({
               loading={loading.toString()}
             >
               <HomeCrawlPanelContainer>
-                {loading && (
-                  <HomeCrawlLoader
-                    className="fa fa-refresh"
-                    aria-hidden="true"
-                  ></HomeCrawlLoader>
-                )}
+                {loading && <Loader />}
                 {!loading && isActive && (
                   <>
                     <HomeCrawlStatusContainer>

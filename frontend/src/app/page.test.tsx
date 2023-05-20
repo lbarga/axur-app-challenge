@@ -4,6 +4,7 @@ import { makeHomePage } from "@/factory/page/home-page-factory";
 import { AxrengServiceModel } from "@/model/axreng-service-model";
 import { ExpressServiceModel } from "@/model/express-service-model";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act } from "react-dom/test-utils";
 
 const { LINKS_FOUND, NOT_FOUND_RECORDS, CARRYING_OUT_SEARCH } = STRING;
 
@@ -73,6 +74,7 @@ const mockAxrengService = {
 };
 
 const mockExpressService = {
+  saveCrawler: jest.fn(),
   getCrawlers: jest.fn(() => {
     return {
       data: mockCrawlersList,
@@ -81,7 +83,7 @@ const mockExpressService = {
   deleteAllCrawlers: jest.fn(),
 };
 
-const setup = (axrengServiceParam: any = mockAxrengService) => {
+const setup = async (axrengServiceParam: any = mockAxrengService) => {
   const utils = render(
     <>
       <ContextWrapper>
@@ -94,9 +96,11 @@ const setup = (axrengServiceParam: any = mockAxrengService) => {
       </ContextWrapper>
     </>
   );
-  const input = screen.findByPlaceholderText(
+
+  const input = (await utils.findByPlaceholderText(
     "keyword"
-  ) as unknown as HTMLInputElement;
+  )) as unknown as HTMLInputElement;
+
   return {
     input,
     ...utils,
@@ -105,25 +109,33 @@ const setup = (axrengServiceParam: any = mockAxrengService) => {
 
 describe("Home", () => {
   it("should render home correctly", async () => {
-    setup();
+    await setup();
 
     const heading = await screen.findByTestId("axur-logo");
 
     expect(heading).toBeInTheDocument();
   });
 
-  it("should change input value", async () => {
-    const { input } = setup();
+  it("should change input value and call search", async () => {
+    const { input } = await setup();
 
-    waitFor(async () => {
+    act(() => {
       fireEvent.change(input, { target: { value: "something" } });
-
-      expect(input.value).toBe("something");
     });
+
+    expect(input.value).toBe("something");
+
+    const searchButton = await screen.findByTestId("search-button");
+
+    act(() => {
+      fireEvent.click(searchButton);
+    });
+
+    expect(mockAxrengService.searchCrawl).toBeCalledWith("something");
   });
 
   it("should call searchCrawl with input value", async () => {
-    const { input } = setup();
+    const { input } = await setup();
 
     waitFor(async () => {
       fireEvent.change(input, { target: { value: "something" } });
@@ -139,7 +151,7 @@ describe("Home", () => {
   });
 
   it("should render list of crawls correctly", async () => {
-    setup();
+    await setup();
 
     const first_item = await screen.findByTestId(
       `accordion-button-${mockCrawlersList[0].crawler_id}`
@@ -157,7 +169,7 @@ describe("Home", () => {
   });
 
   it("should render crawl details status done without links", async () => {
-    setup();
+    await setup();
 
     const item = await screen.findByTestId(
       `accordion-button-${mockCrawlersList[0].crawler_id}`
@@ -188,7 +200,7 @@ describe("Home", () => {
       };
     });
 
-    setup();
+    await setup();
 
     const item = await screen.findByTestId(
       `accordion-button-${mockCrawlersList[0].crawler_id}`
@@ -219,7 +231,7 @@ describe("Home", () => {
       };
     });
 
-    setup();
+    await setup();
 
     const item = await screen.findByTestId(
       `accordion-button-${mockCrawlersList[0].crawler_id}`
@@ -250,7 +262,7 @@ describe("Home", () => {
       };
     });
 
-    setup();
+    await setup();
 
     const item = await screen.findByTestId(
       `accordion-button-${mockCrawlersList[0].crawler_id}`
@@ -272,7 +284,7 @@ describe("Home", () => {
   });
 
   it("should call deleteAllCrawlers when click in celar all button", async () => {
-    setup();
+    await setup();
 
     const clearButton = await screen.findByRole("button", {
       name: "clear all",
@@ -293,7 +305,7 @@ describe("Home", () => {
       };
     });
 
-    const { debug } = setup();
+    const { debug } = await setup();
 
     const item = await screen.findByTestId(
       `accordion-button-${mockCrawlersList[0].crawler_id}`

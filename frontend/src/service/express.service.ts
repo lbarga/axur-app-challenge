@@ -15,7 +15,12 @@ const getCrawlers = async (): Promise<AxiosResponse<CrawlerModel[]>> => {
   return expressAPI.get(BASE_URL);
 };
 
+const deleteAllCrawlers = async (): Promise<AxiosResponse<any>> => {
+  return expressAPI.delete(BASE_URL);
+};
+
 export const expressService: ExpressServiceModel = {
   saveCrawler,
   getCrawlers,
+  deleteAllCrawlers,
 };

@@ -1,4 +1,5 @@
 "use client";
+import { useGlobalLoaderContext } from "@/context/global-loader-context";
 import { AxrengServiceModel } from "@/model/axreng-service-model";
 import { CrawlDataModel } from "@/model/crawl-model";
 import { CrawlerModel } from "@/model/crawler-model";
@@ -23,10 +24,16 @@ export default function HomePage({
   const [loading, setLoading] = useState(false);
   const [currentCrawl, setCurrentCrawl] = useState<CrawlDataModel>();
   const [lessThan3Letters, setLessThan3Letters] = useState(false);
+  const globalLoaderContext = useGlobalLoaderContext();
 
   const fetchCrawlers = async () => {
+    globalLoaderContext.setLoading(true);
+
     const { data: crawlers } = await expressService.getCrawlers();
+
     setCrawlers(crawlers);
+
+    globalLoaderContext.setLoading(false);
   };
 
   const handleClickRefresh = async (crawlId: string) => {
@@ -55,6 +62,8 @@ export default function HomePage({
 
     setLessThan3Letters(false);
 
+    globalLoaderContext.setLoading(true);
+
     const {
       status,
       data: { id },
@@ -70,12 +79,12 @@ export default function HomePage({
       fetchCrawlers();
 
       clear();
+
+      globalLoaderContext.setLoading(false);
     }
   };
 
   const handleAccordionClick = async (crawlId: string) => {
-    console.log("===> ", crawlId);
-
     if (crawlId === selectedAccordionId) {
       setSelectedAccordionId("");
       return;
@@ -86,9 +95,18 @@ export default function HomePage({
     handleClickRefresh(crawlId);
   };
 
-  const handleClearAllClick = () => {
-    // axrengService.deleteAllCrawlers();
-    // fetchCrawlers();
+  const handleClearAllClick = async () => {
+    globalLoaderContext.setLoading(true);
+
+    try {
+      await expressService.deleteAllCrawlers();
+    } catch (error) {
+      globalLoaderContext.setLoading(false);
+    }
+
+    fetchCrawlers();
+
+    globalLoaderContext.setLoading(false);
   };
 
   useEffect(() => {

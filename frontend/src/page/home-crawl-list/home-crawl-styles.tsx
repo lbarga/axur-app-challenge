@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
 export const HomeCrawlContainer = styled.div`
   display: flex;
@@ -25,6 +25,7 @@ export const HomeCrawlAccordion = styled.button`
   font-size: 24px;
   align-items: center;
   justify-content: space-between;
+  white-space: nowrap;
 
   &:hover {
     background-color: #e9e9e9;
@@ -43,7 +44,6 @@ export const HomeCrawlPanel = styled.div<{
   box-shadow: 0 0px 1px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   border-radius: 0px 0px 8px 8px;
   margin-top: 1px;
-  transition: max-height 0.3s ease-in-out;
   width: -webkit-fill-available;\
 
   ${(props) => props.isactive === "true" && `max-height: 9999px;`}
@@ -107,23 +107,6 @@ export const HomeCrawlStatusTag = styled.div<{ status: "active" | "done" }>`
 export const HomeCrawlEmptyContainer = styled.div`
   display: flex;
   justify-content: center;
-`;
-
-const rotateAnimation = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
-export const HomeCrawlLoader = styled.i`
-  display: flex;
-  font-size: 80px;
-  justify-content: center;
-  align-items: center;
-  animation: ${rotateAnimation} 2s linear infinite;
 `;
 
 export const HomeCrawlKeyword = styled.div`
