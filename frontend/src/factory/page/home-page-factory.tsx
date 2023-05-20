@@ -1,13 +1,22 @@
-import { CrawlServiceModel } from "@/model/crawl-service-model";
+import { AxrengServiceModel } from "@/model/axreng-service-model";
+import { ExpressServiceModel } from "@/model/express-service-model";
 import HomePage from "@/page/home-page";
-import { crawlService } from "@/service/crawl.service";
+import { axrengService } from "@/service/axreng.service";
+import { expressService } from "@/service/express.service";
 
 type MakeHomePageProps = {
-  crawlServiceProp?: CrawlServiceModel;
+  axrengServiceParam?: AxrengServiceModel;
+  expressServiceParam?: ExpressServiceModel;
 };
 
 export const makeHomePage = ({
-  crawlServiceProp = crawlService,
+  axrengServiceParam = axrengService,
+  expressServiceParam = expressService,
 }: MakeHomePageProps = {}) => {
-  return <HomePage crawlService={crawlServiceProp} />;
+  return (
+    <HomePage
+      axrengService={axrengServiceParam}
+      expressService={expressServiceParam}
+    />
+  );
 };

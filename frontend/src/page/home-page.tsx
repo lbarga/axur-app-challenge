@@ -1,35 +1,38 @@
 "use client";
-import { CONSTANT } from "@/constant/constant";
-import { CrawlDataModel, CrawlModel } from "@/model/crawl-model";
-import { CrawlServiceModel } from "@/model/crawl-service-model";
+import { AxrengServiceModel } from "@/model/axreng-service-model";
+import { CrawlDataModel } from "@/model/crawl-model";
+import { CrawlerModel } from "@/model/crawler-model";
+import { ExpressServiceModel } from "@/model/express-service-model";
 import { useEffect, useState } from "react";
 import { HomeCrawlList } from "./home-crawl-list/home-crawl-list";
 import { HomePageContainer, HomePageLogo } from "./home-page-styles";
 import HomeSearch from "./home-search/home-search";
 
-const { CRAWLERS: CRAWLS } = CONSTANT.LOCAL_STORAGE;
-
 type HomePageProps = {
-  crawlService: CrawlServiceModel;
+  axrengService: AxrengServiceModel;
+  expressService: ExpressServiceModel;
 };
 
-export default function HomePage({ crawlService }: HomePageProps) {
+export default function HomePage({
+  axrengService,
+  expressService,
+}: HomePageProps) {
   const [keyword, setKeyword] = useState("");
-  const [crawlers, setCrawlers] = useState<CrawlModel[]>([]);
+  const [crawlers, setCrawlers] = useState<CrawlerModel[]>([]);
   const [selectedAccordionId, setSelectedAccordionId] = useState("");
   const [loading, setLoading] = useState(false);
   const [currentCrawl, setCurrentCrawl] = useState<CrawlDataModel>();
   const [lessThan3Letters, setLessThan3Letters] = useState(false);
 
-  const fetchCrawlers = () => {
-    const crawls = crawlService.getCrawlers();
-    setCrawlers(crawls);
+  const fetchCrawlers = async () => {
+    const { data: crawlers } = await expressService.getCrawlers();
+    setCrawlers(crawlers);
   };
 
   const handleClickRefresh = async (crawlId: string) => {
     setLoading(true);
 
-    const response = await crawlService.getCrawler(crawlId);
+    const response = await axrengService.getCrawlDetails(crawlId);
 
     if (response.status === 200) {
       setLoading(false);
@@ -55,18 +58,14 @@ export default function HomePage({ crawlService }: HomePageProps) {
     const {
       status,
       data: { id },
-    } = await crawlService.postCrawl(keyword);
+    } = await axrengService.searchCrawl(keyword);
 
     if (status === 200) {
-      const crawlers = crawlService.getCrawlers();
-
       const created_at = new Date().toISOString();
 
-      crawlers.push({ keyword, id, created_at });
+      const crawler: CrawlerModel = { crawler_id: id, keyword, created_at };
 
-      const currentCrawlersString = JSON.stringify(crawlers);
-
-      localStorage.setItem(CRAWLS, currentCrawlersString);
+      await expressService.saveCrawler(crawler);
 
       fetchCrawlers();
 
@@ -75,6 +74,8 @@ export default function HomePage({ crawlService }: HomePageProps) {
   };
 
   const handleAccordionClick = async (crawlId: string) => {
+    console.log("===> ", crawlId);
+
     if (crawlId === selectedAccordionId) {
       setSelectedAccordionId("");
       return;
@@ -86,9 +87,8 @@ export default function HomePage({ crawlService }: HomePageProps) {
   };
 
   const handleClearAllClick = () => {
-    crawlService.deleteAllCrawlers();
-
-    fetchCrawlers();
+    // axrengService.deleteAllCrawlers();
+    // fetchCrawlers();
   };
 
   useEffect(() => {
@@ -112,7 +112,7 @@ export default function HomePage({ crawlService }: HomePageProps) {
         onClearAllClick={handleClearAllClick}
       />
       <HomeCrawlList
-        crawls={crawlers}
+        crawlers={crawlers}
         onAccordionClick={handleAccordionClick}
         selectedAccordionId={selectedAccordionId}
         loading={loading}

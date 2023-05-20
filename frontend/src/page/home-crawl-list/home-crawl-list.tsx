@@ -1,6 +1,7 @@
 "use client";
 import { STRING } from "@/constant/string";
-import { CrawlDataModel, CrawlModel } from "@/model/crawl-model";
+import { CrawlDataModel } from "@/model/crawl-model";
+import { CrawlerModel } from "@/model/crawler-model";
 import { normalizeDate } from "@/utils/date-formatter";
 import _orderby from "lodash.orderby";
 import {
@@ -17,7 +18,7 @@ import {
 } from "./home-crawl-styles";
 
 type HomeCrawlListProps = {
-  crawls: CrawlModel[];
+  crawlers: CrawlerModel[];
   onAccordionClick: (crawlId: string) => void;
   selectedAccordionId: string;
   loading: boolean;
@@ -28,7 +29,7 @@ type HomeCrawlListProps = {
 const { LINKS_FOUND, NOT_FOUND_RECORDS, CARRYING_OUT_SEARCH } = STRING;
 
 export const HomeCrawlList = ({
-  crawls,
+  crawlers: crawls,
   onAccordionClick,
   selectedAccordionId,
   loading,
@@ -37,14 +38,14 @@ export const HomeCrawlList = ({
 }: HomeCrawlListProps) => {
   return (
     <>
-      {_orderby(crawls, "created_at", "desc").map((crawl: CrawlModel) => {
-        const isActive = selectedAccordionId === crawl.id;
+      {_orderby(crawls, "created_at", "desc").map((crawl: CrawlerModel) => {
+        const isActive = selectedAccordionId === crawl.crawler_id;
 
         return (
-          <HomeCrawlContainer key={crawl.id}>
+          <HomeCrawlContainer key={crawl.crawler_id}>
             <HomeCrawlAccordion
-              onClick={() => onAccordionClick(crawl.id)}
-              data-testid={`accordion-button-${crawl.id}`}
+              onClick={() => onAccordionClick(crawl.crawler_id)}
+              data-testid={`accordion-button-${crawl.crawler_id}`}
             >
               <HomeCrawlKeyword>{crawl.keyword}</HomeCrawlKeyword>
               <div>{normalizeDate(crawl.created_at)}</div>
@@ -83,7 +84,7 @@ export const HomeCrawlList = ({
                       </div>
                       {currentCrawl?.status === "active" && (
                         <HomeCrawlRefreshButton
-                          onClick={() => onClickRefresh(crawl.id)}
+                          onClick={() => onClickRefresh(crawl.crawler_id)}
                           data-testid="refresh-button"
                         >
                           <i className="fa fa-refresh" aria-hidden="true"></i>

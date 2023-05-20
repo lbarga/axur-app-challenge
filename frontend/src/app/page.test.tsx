@@ -56,13 +56,13 @@ const mockCrawlDataStatusActiveWithLinks = {
 };
 
 const mockCrawlService = {
-  getCrawler: jest.fn(async () => {
+  getCrawlDetails: jest.fn(async () => {
     return {
       status: 200,
       data: mockCrawlDataStatusDoneWithoutLinks,
     };
   }),
-  postCrawl: jest.fn(async () => {
+  searchCrawl: jest.fn(async () => {
     return {
       status: 200,
       data: { id: "p8Kd0kRS" },
@@ -106,7 +106,7 @@ describe("Home", () => {
     });
   });
 
-  it("should call postCrawl with input value", async () => {
+  it("should call searchCrawl with input value", async () => {
     const { input } = setup();
 
     waitFor(async () => {
@@ -118,7 +118,7 @@ describe("Home", () => {
 
       fireEvent.click(searchButton);
 
-      expect(mockCrawlService.postCrawl).toBeCalledWith("something");
+      expect(mockCrawlService.searchCrawl).toBeCalledWith("something");
     });
   });
 
@@ -151,7 +151,7 @@ describe("Home", () => {
 
     fireEvent.click(item);
 
-    expect(mockCrawlService.getCrawler).toBeCalled();
+    expect(mockCrawlService.getCrawlDetails).toBeCalled();
 
     const status = await screen.findByText(`done`);
     const linksFound = await screen.findByText(`${LINKS_FOUND}0`);
@@ -165,7 +165,7 @@ describe("Home", () => {
   it("should render crawl details status done with links", async () => {
     const newMockCrawlService: any = mockCrawlService;
 
-    newMockCrawlService.getCrawler = jest.fn(async () => {
+    newMockCrawlService.getCrawlDetails = jest.fn(async () => {
       return {
         status: 200,
         data: mockCrawlDataStatusDoneWithLinks,
@@ -182,7 +182,7 @@ describe("Home", () => {
 
     fireEvent.click(item);
 
-    expect(mockCrawlService.getCrawler).toBeCalled();
+    expect(mockCrawlService.getCrawlDetails).toBeCalled();
 
     const status = await screen.findByText(`done`);
     const linksFound = await screen.findByText(`${LINKS_FOUND}3`);
@@ -196,7 +196,7 @@ describe("Home", () => {
   it("should render crawl details status active without links", async () => {
     const newMockCrawlService: any = mockCrawlService;
 
-    newMockCrawlService.getCrawler = jest.fn(async () => {
+    newMockCrawlService.getCrawlDetails = jest.fn(async () => {
       return {
         status: 200,
         data: mockCrawlDataStatusActiveWithoutLinks,
@@ -213,7 +213,7 @@ describe("Home", () => {
 
     fireEvent.click(item);
 
-    expect(mockCrawlService.getCrawler).toBeCalled();
+    expect(mockCrawlService.getCrawlDetails).toBeCalled();
 
     const status = await screen.findByText(`active`);
     const linksFound = await screen.findByText(`${LINKS_FOUND}0`);
@@ -227,7 +227,7 @@ describe("Home", () => {
   it("should render crawl details status active with links", async () => {
     const newMockCrawlService: any = mockCrawlService;
 
-    newMockCrawlService.getCrawler = jest.fn(async () => {
+    newMockCrawlService.getCrawlDetails = jest.fn(async () => {
       return {
         status: 200,
         data: mockCrawlDataStatusActiveWithLinks,
@@ -244,7 +244,7 @@ describe("Home", () => {
 
     fireEvent.click(item);
 
-    expect(mockCrawlService.getCrawler).toBeCalled();
+    expect(mockCrawlService.getCrawlDetails).toBeCalled();
 
     const status = await screen.findByText(`active`);
     const linksFound = await screen.findByText(`${LINKS_FOUND}3`);
@@ -270,7 +270,7 @@ describe("Home", () => {
   it("should click in refresh button and update get new links", async () => {
     const pointerMockCrawlService: any = mockCrawlService;
 
-    pointerMockCrawlService.getCrawler = jest.fn(async () => {
+    pointerMockCrawlService.getCrawlDetails = jest.fn(async () => {
       return {
         status: 200,
         data: mockCrawlDataStatusActiveWithLinks,
@@ -293,7 +293,7 @@ describe("Home", () => {
 
     mockCrawlDataStatusActiveWithLinks.urls.push("https://www.new-link.com/");
 
-    pointerMockCrawlService.getCrawler = jest.fn(async () => {
+    pointerMockCrawlService.getCrawlDetails = jest.fn(async () => {
       return {
         status: 200,
         data: mockCrawlDataStatusActiveWithLinks,

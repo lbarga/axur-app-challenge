@@ -43,7 +43,7 @@ export const HomeCrawlPanel = styled.div<{
   box-shadow: 0 0px 1px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   border-radius: 0px 0px 8px 8px;
   margin-top: 1px;
-  transition: max-height 0.5s ease-in-out;
+  transition: max-height 0.3s ease-in-out;
   width: -webkit-fill-available;\
 
   ${(props) => props.isactive === "true" && `max-height: 9999px;`}
