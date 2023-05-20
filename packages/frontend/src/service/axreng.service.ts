@@ -1,4 +1,3 @@
-import { CONSTANT } from "@/constant/constant";
 import { AxiosResponse } from "axios";
 import axrengAPI from "../infra/axreng-api";
 import {
@@ -8,8 +7,6 @@ import {
 } from "../model/axreng-service-model";
 
 const BASE_URL = "/crawl";
-
-const { CRAWLERS: CRAWLS } = CONSTANT.LOCAL_STORAGE;
 
 const searchCrawl = async (
   keyword: string
