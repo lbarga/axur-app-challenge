@@ -84,6 +84,7 @@ export const HomeCrawlList = ({
                       {currentCrawl?.status === "active" && (
                         <HomeCrawlRefreshButton
                           onClick={() => onClickRefresh(crawl.id)}
+                          data-testid="refresh-button"
                         >
                           <i className="fa fa-refresh" aria-hidden="true"></i>
                         </HomeCrawlRefreshButton>

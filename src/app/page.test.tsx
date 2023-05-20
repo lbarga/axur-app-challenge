@@ -266,4 +266,48 @@ describe("Home", () => {
 
     expect(mockCrawlService.deleteAllCrawlers).toBeCalled();
   });
+
+  it("should click in refresh button and update get new links", async () => {
+    const pointerMockCrawlService: any = mockCrawlService;
+
+    pointerMockCrawlService.getCrawler = jest.fn(async () => {
+      return {
+        status: 200,
+        data: mockCrawlDataStatusActiveWithLinks,
+      };
+    });
+
+    const { debug } = setup();
+
+    const item = await screen.findByTestId(
+      `accordion-button-${mockCrawlersList[0].id}`
+    );
+
+    expect(item).toBeInTheDocument();
+
+    fireEvent.click(item);
+
+    const refreshButton = await screen.findByTestId("refresh-button");
+
+    expect(refreshButton).toBeInTheDocument();
+
+    mockCrawlDataStatusActiveWithLinks.urls.push("https://www.new-link.com/");
+
+    pointerMockCrawlService.getCrawler = jest.fn(async () => {
+      return {
+        status: 200,
+        data: mockCrawlDataStatusActiveWithLinks,
+      };
+    });
+
+    fireEvent.click(refreshButton);
+
+    const status = await screen.findByText(`active`);
+
+    expect(status).toBeInTheDocument();
+
+    const newLink = await screen.findByText(`https://www.new-link.com/`);
+
+    expect(newLink).toBeInTheDocument();
+  });
 });

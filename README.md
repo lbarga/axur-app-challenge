@@ -1,29 +1,10 @@
-# Next.js + Jest
+# Axur Frontend Test
 
-This example shows how to configure Jest to work with Next.js.
-
-This includes Next.js' built-in support for Global CSS, CSS Modules and TypeScript.
-
-## How to Use
-
-Quickly get started using [Create Next App](https://github.com/vercel/next.js/tree/canary/packages/create-next-app#readme)!
-
-In your terminal, run the following command:
+## How to Run
 
 ```bash
-npx create-next-app --example with-jest with-jest-app
-```
-
-```bash
-yarn create next-app --example with-jest with-jest-app
-```
-
-```bash
-pnpm create next-app --example with-jest with-jest-app
-```
-
-## Run Jest Tests
-
-```bash
-npm test
+● yarn i - Install the dependencies.
+● yarn start - Starts the development server.
+● yarn test - Runs the available test suite for the application.
+● yarn build - Creates the bundle for publication. A static build has been configured for this project.
 ```
