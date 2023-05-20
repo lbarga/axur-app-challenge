@@ -1,3 +1,5 @@
+import GlobalLoader from "@/component/global-loader.tsx/global-loader";
+import { ContextWrapper } from "@/context/_context";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -14,16 +16,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <head>
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-        ></link>
-      </head>
-      <body className={inter.className} suppressHydrationWarning={true}>
-        {children}
-      </body>
-    </html>
+    <ContextWrapper>
+      <>
+        <html lang="en">
+          <head>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+            ></link>
+          </head>
+          <body className={inter.className} suppressHydrationWarning={true}>
+            <GlobalLoader />
+            {children}
+          </body>
+        </html>
+      </>
+    </ContextWrapper>
   );
 }

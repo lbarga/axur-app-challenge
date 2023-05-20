@@ -1,36 +1,38 @@
 import { STRING } from "@/constant/string";
+import { ContextWrapper } from "@/context/_context";
 import { makeHomePage } from "@/factory/page/home-page-factory";
-import { CrawlServiceModel } from "@/model/crawl-service-model";
+import { AxrengServiceModel } from "@/model/axreng-service-model";
+import { ExpressServiceModel } from "@/model/express-service-model";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
 const { LINKS_FOUND, NOT_FOUND_RECORDS, CARRYING_OUT_SEARCH } = STRING;
 
 const mockCrawlersList = [
   {
-    id: "LXUDKgJG",
+    crawler_id: "LXUDKgJG",
     keyword: "something",
     created_at: "2023-05-19T21:02:23.390Z",
   },
   {
-    id: "cVsLBz7b",
+    crawler_id: "cVsLBz7b",
     keyword: "new one",
     created_at: "2023-05-19T21:06:59.721Z",
   },
   {
-    id: "mTrZzD1u",
+    crawler_id: "mTrZzD1u",
     keyword: "new two",
     created_at: "2023-05-20T21:06:59.721Z",
   },
 ];
 
 const mockCrawlDataStatusDoneWithoutLinks = {
-  id: "cVsLBz7b",
+  crawler_id: "cVsLBz7b",
   status: "done",
   urls: [],
 };
 
 const mockCrawlDataStatusDoneWithLinks = {
-  id: "LXUDKgJG",
+  crawler_id: "LXUDKgJG",
   status: "done",
   urls: [
     "http://hiring.axreng.com/htmlman1/ldapsearch.1.html",
@@ -40,13 +42,13 @@ const mockCrawlDataStatusDoneWithLinks = {
 };
 
 const mockCrawlDataStatusActiveWithoutLinks = {
-  id: "LXUDKgJG",
+  crawler_id: "LXUDKgJG",
   status: "active",
   urls: [],
 };
 
 const mockCrawlDataStatusActiveWithLinks = {
-  id: "LXUDKgJG",
+  crawler_id: "LXUDKgJG",
   status: "active",
   urls: [
     "http://hiring.axreng.com/htmlman1/ldapsearch.1.html",
@@ -55,28 +57,42 @@ const mockCrawlDataStatusActiveWithLinks = {
   ],
 };
 
-const mockCrawlService = {
+const mockAxrengService = {
+  searchCrawl: jest.fn(async () => {
+    return {
+      status: 200,
+      data: { crawler_id: "p8Kd0kRS" },
+    };
+  }),
   getCrawlDetails: jest.fn(async () => {
     return {
       status: 200,
       data: mockCrawlDataStatusDoneWithoutLinks,
     };
   }),
-  searchCrawl: jest.fn(async () => {
+};
+
+const mockExpressService = {
+  getCrawlers: jest.fn(() => {
     return {
-      status: 200,
-      data: { id: "p8Kd0kRS" },
+      data: mockCrawlersList,
     };
   }),
-  getCrawlers: jest.fn(() => mockCrawlersList),
   deleteAllCrawlers: jest.fn(),
 };
 
-const setup = (mockService: any = mockCrawlService) => {
+const setup = (axrengServiceParam: any = mockAxrengService) => {
   const utils = render(
-    makeHomePage({
-      crawlServiceProp: mockService as unknown as CrawlServiceModel,
-    })
+    <>
+      <ContextWrapper>
+        {makeHomePage({
+          axrengServiceParam:
+            axrengServiceParam as unknown as AxrengServiceModel,
+          expressServiceParam:
+            mockExpressService as unknown as ExpressServiceModel,
+        })}
+      </ContextWrapper>
+    </>
   );
   const input = screen.findByPlaceholderText(
     "keyword"
@@ -118,7 +134,7 @@ describe("Home", () => {
 
       fireEvent.click(searchButton);
 
-      expect(mockCrawlService.searchCrawl).toBeCalledWith("something");
+      expect(mockAxrengService.searchCrawl).toBeCalledWith("something");
     });
   });
 
@@ -126,13 +142,13 @@ describe("Home", () => {
     setup();
 
     const first_item = await screen.findByTestId(
-      `accordion-button-${mockCrawlersList[0].id}`
+      `accordion-button-${mockCrawlersList[0].crawler_id}`
     );
     const second_item = await screen.findByTestId(
-      `accordion-button-${mockCrawlersList[1].id}`
+      `accordion-button-${mockCrawlersList[1].crawler_id}`
     );
     const third_item = await screen.findByTestId(
-      `accordion-button-${mockCrawlersList[2].id}`
+      `accordion-button-${mockCrawlersList[2].crawler_id}`
     );
 
     expect(first_item).toBeInTheDocument();
@@ -144,14 +160,14 @@ describe("Home", () => {
     setup();
 
     const item = await screen.findByTestId(
-      `accordion-button-${mockCrawlersList[0].id}`
+      `accordion-button-${mockCrawlersList[0].crawler_id}`
     );
 
     expect(item).toBeInTheDocument();
 
     fireEvent.click(item);
 
-    expect(mockCrawlService.getCrawlDetails).toBeCalled();
+    expect(mockAxrengService.getCrawlDetails).toBeCalled();
 
     const status = await screen.findByText(`done`);
     const linksFound = await screen.findByText(`${LINKS_FOUND}0`);
@@ -163,7 +179,7 @@ describe("Home", () => {
   });
 
   it("should render crawl details status done with links", async () => {
-    const newMockCrawlService: any = mockCrawlService;
+    const newMockCrawlService: any = mockAxrengService;
 
     newMockCrawlService.getCrawlDetails = jest.fn(async () => {
       return {
@@ -175,14 +191,14 @@ describe("Home", () => {
     setup();
 
     const item = await screen.findByTestId(
-      `accordion-button-${mockCrawlersList[0].id}`
+      `accordion-button-${mockCrawlersList[0].crawler_id}`
     );
 
     expect(item).toBeInTheDocument();
 
     fireEvent.click(item);
 
-    expect(mockCrawlService.getCrawlDetails).toBeCalled();
+    expect(mockAxrengService.getCrawlDetails).toBeCalled();
 
     const status = await screen.findByText(`done`);
     const linksFound = await screen.findByText(`${LINKS_FOUND}3`);
@@ -194,7 +210,7 @@ describe("Home", () => {
   });
 
   it("should render crawl details status active without links", async () => {
-    const newMockCrawlService: any = mockCrawlService;
+    const newMockCrawlService: any = mockAxrengService;
 
     newMockCrawlService.getCrawlDetails = jest.fn(async () => {
       return {
@@ -206,14 +222,14 @@ describe("Home", () => {
     setup();
 
     const item = await screen.findByTestId(
-      `accordion-button-${mockCrawlersList[0].id}`
+      `accordion-button-${mockCrawlersList[0].crawler_id}`
     );
 
     expect(item).toBeInTheDocument();
 
     fireEvent.click(item);
 
-    expect(mockCrawlService.getCrawlDetails).toBeCalled();
+    expect(mockAxrengService.getCrawlDetails).toBeCalled();
 
     const status = await screen.findByText(`active`);
     const linksFound = await screen.findByText(`${LINKS_FOUND}0`);
@@ -225,7 +241,7 @@ describe("Home", () => {
   });
 
   it("should render crawl details status active with links", async () => {
-    const newMockCrawlService: any = mockCrawlService;
+    const newMockCrawlService: any = mockAxrengService;
 
     newMockCrawlService.getCrawlDetails = jest.fn(async () => {
       return {
@@ -237,14 +253,14 @@ describe("Home", () => {
     setup();
 
     const item = await screen.findByTestId(
-      `accordion-button-${mockCrawlersList[0].id}`
+      `accordion-button-${mockCrawlersList[0].crawler_id}`
     );
 
     expect(item).toBeInTheDocument();
 
     fireEvent.click(item);
 
-    expect(mockCrawlService.getCrawlDetails).toBeCalled();
+    expect(mockAxrengService.getCrawlDetails).toBeCalled();
 
     const status = await screen.findByText(`active`);
     const linksFound = await screen.findByText(`${LINKS_FOUND}3`);
@@ -264,11 +280,11 @@ describe("Home", () => {
 
     fireEvent.click(clearButton);
 
-    expect(mockCrawlService.deleteAllCrawlers).toBeCalled();
+    expect(mockExpressService.deleteAllCrawlers).toBeCalled();
   });
 
   it("should click in refresh button and update get new links", async () => {
-    const pointerMockCrawlService: any = mockCrawlService;
+    const pointerMockCrawlService: any = mockAxrengService;
 
     pointerMockCrawlService.getCrawlDetails = jest.fn(async () => {
       return {
@@ -280,7 +296,7 @@ describe("Home", () => {
     const { debug } = setup();
 
     const item = await screen.findByTestId(
-      `accordion-button-${mockCrawlersList[0].id}`
+      `accordion-button-${mockCrawlersList[0].crawler_id}`
     );
 
     expect(item).toBeInTheDocument();
