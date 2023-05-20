@@ -1,5 +1,6 @@
 import GlobalLoader from "@/component/global-loader.tsx/global-loader";
 import { ContextWrapper } from "@/context/_context";
+import StyledComponentsRegistry from "@/lib/registry";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -27,7 +28,7 @@ export default function RootLayout({
           </head>
           <body className={inter.className} suppressHydrationWarning={true}>
             <GlobalLoader />
-            {children}
+            <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
           </body>
         </html>
       </>
