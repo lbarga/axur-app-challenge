@@ -55,10 +55,5 @@ To run the application, follow the steps below:
 
 Please make sure you have Node.js and Yarn installed on your system before running the commands above.
 
-## Some images:
-
-You can find this images in images folder to.
-
-<img src="https://raw.githubusercontent.com/lbarga/axur-test-app/v2-mongodb/images/1.png?token=GHSAT0AAAAAACCEZ32VPKHAEDKPN7RX7QJ6ZDJK3IQ" alt="Descrição da imagem" width="600px" height="300px" />
-<img src="https://raw.githubusercontent.com/lbarga/axur-test-app/main/images/2.png?token=GHSAT0AAAAAACCEZ32VCHFAR2LMXDQHXNRYZDJK4KA" alt="Descrição da imagem" width="600px" height="300px" />
-<img src="https://raw.githubusercontent.com/lbarga/axur-test-app/main/images/3.png?token=GHSAT0AAAAAACCEZ32VS7B33PHY74L4U544ZDJK4OQ" alt="Descrição da imagem" width="600px" height="300px" />
+## Preview:
+You can find this images in images folder.
