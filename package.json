@@ -1,0 +1,15 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "start": "npx lerna exec -- yarn start",
+    "test": "npx lerna exec -- yarn test",
+    "build": "npx lerna exec -- yarn build"
+  },
+  "devDependencies": {
+    "lerna": "^6.6.2"
+  }
+}
