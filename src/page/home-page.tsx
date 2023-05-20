@@ -58,19 +58,18 @@ export default function HomePage({ crawlService }: HomePageProps) {
     } = await crawlService.postCrawl(keyword);
 
     if (status === 200) {
-      const crawlsString = localStorage.getItem(CRAWLS) || "[]";
-
-      const currentCrawlers = JSON.parse(crawlsString) as CrawlModel[];
+      const crawlers = crawlService.getCrawlers();
 
       const created_at = new Date().toISOString();
 
-      currentCrawlers.push({ keyword, id, created_at });
+      crawlers.push({ keyword, id, created_at });
 
-      const currentCrawlersString = JSON.stringify(currentCrawlers);
+      const currentCrawlersString = JSON.stringify(crawlers);
 
       localStorage.setItem(CRAWLS, currentCrawlersString);
 
       fetchCrawlers();
+
       clear();
     }
   };

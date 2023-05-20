@@ -22,10 +22,10 @@ const getCrawler = async (id: string): Promise<AxiosResponse<GetCrawlData>> => {
 };
 
 const getCrawlers = (): CrawlModel[] => {
-  const crawlsString = localStorage.getItem(CRAWLS) || "[]";
-  const crawls = JSON.parse(crawlsString) as CrawlModel[];
+  const crawlersString = localStorage.getItem(CRAWLS) || "[]";
+  const crawlers = JSON.parse(crawlersString) as CrawlModel[];
 
-  return crawls;
+  return crawlers;
 };
 
 const deleteAllCrawlers = () => {
