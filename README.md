@@ -48,6 +48,8 @@ To run the application, follow the steps below:
 
 Please make sure you have Node.js and Yarn installed on your system before running the commands above.
 
+## Some images:
+
 <img src="https://raw.githubusercontent.com/lbarga/axur-test-app/v2-mongodb/images/1.png?token=GHSAT0AAAAAACCEZ32URF362GYK3R3RCWU4ZDJKQ5A" alt="Descrição da imagem" width="600px" height="300px" />
 <img src="https://raw.githubusercontent.com/lbarga/axur-test-app/v2-mongodb/images/2.png?token=GHSAT0AAAAAACCEZ32UXH276JZAO6YZ6A54ZDJKSXA" alt="Descrição da imagem" width="600px" height="300px" />
 <img src="https://raw.githubusercontent.com/lbarga/axur-test-app/v2-mongodb/images/3.png?token=GHSAT0AAAAAACCEZ32UUSPMMEE3HGKXLYEYZDJKS5A" alt="Descrição da imagem" width="600px" height="300px" />
