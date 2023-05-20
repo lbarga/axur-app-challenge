@@ -1,9 +1,13 @@
-import { PostCrawlData } from "@/model/crawl-service";
+import { CONSTANT } from "@/constant/constant";
+import { CrawlModel } from "@/model/crawl-model";
+import { PostCrawlData } from "@/model/crawl-service-model";
 import { AxiosResponse } from "axios";
 import api from "../infra/api";
-import { GetCrawlData } from "./../model/crawl-service";
+import { GetCrawlData } from "../model/crawl-service-model";
 
 const BASE_URL = "/crawl";
+
+const { CRAWLERS: CRAWLS } = CONSTANT.LOCAL_STORAGE;
 
 const postCrawl = async (
   keyword: string
@@ -13,11 +17,26 @@ const postCrawl = async (
   });
 };
 
-const getCrawl = async (id: string): Promise<AxiosResponse<GetCrawlData>> => {
+const getCrawler = async (id: string): Promise<AxiosResponse<GetCrawlData>> => {
   return api.get(`${BASE_URL}/${id}`);
+};
+
+const getCrawlers = (): CrawlModel[] => {
+  const crawlsString = localStorage.getItem(CRAWLS) || "[]";
+  const crawls = JSON.parse(crawlsString) as CrawlModel[];
+
+  return crawls;
+};
+
+const deleteAllCrawlers = () => {
+  const empty = JSON.stringify([]);
+
+  localStorage.setItem(CRAWLS, empty);
 };
 
 export const crawlService = {
   postCrawl,
-  getCrawl,
+  getCrawler,
+  getCrawlers,
+  deleteAllCrawlers,
 };

@@ -1,13 +1,13 @@
 "use client";
 import { CONSTANT } from "@/constant/constant";
-import { CrawlDataModel, CrawlModel } from "@/model/crawl";
-import { CrawlServiceModel } from "@/model/crawl-service";
+import { CrawlDataModel, CrawlModel } from "@/model/crawl-model";
+import { CrawlServiceModel } from "@/model/crawl-service-model";
 import { useEffect, useState } from "react";
 import { HomeCrawlList } from "./home-crawl-list/home-crawl-list";
 import { HomePageContainer, HomePageLogo } from "./home-page-styles";
 import HomeSearch from "./home-search/home-search";
 
-const { CRAWLS } = CONSTANT.LOCAL_STORAGE;
+const { CRAWLERS: CRAWLS } = CONSTANT.LOCAL_STORAGE;
 
 type HomePageProps = {
   crawlService: CrawlServiceModel;
@@ -15,22 +15,21 @@ type HomePageProps = {
 
 export default function HomePage({ crawlService }: HomePageProps) {
   const [keyword, setKeyword] = useState("");
-  const [crawls, setCrawls] = useState<CrawlModel[]>([]);
+  const [crawlers, setCrawlers] = useState<CrawlModel[]>([]);
   const [selectedAccordionId, setSelectedAccordionId] = useState("");
   const [loading, setLoading] = useState(false);
   const [currentCrawl, setCurrentCrawl] = useState<CrawlDataModel>();
   const [lessThan3Letters, setLessThan3Letters] = useState(false);
 
-  const fetchCrawls = () => {
-    const crawlsString = localStorage.getItem(CRAWLS) || "[]";
-    const currentCrawls = JSON.parse(crawlsString) as CrawlModel[];
-    setCrawls(currentCrawls);
+  const fetchCrawlers = () => {
+    const crawls = crawlService.getCrawlers();
+    setCrawlers(crawls);
   };
 
-  const fetchCurrentCrawl = async (crawlId: string) => {
+  const handleClickRefresh = async (crawlId: string) => {
     setLoading(true);
 
-    const response = await crawlService.getCrawl(crawlId);
+    const response = await crawlService.getCrawler(crawlId);
 
     if (response.status === 200) {
       setLoading(false);
@@ -61,17 +60,17 @@ export default function HomePage({ crawlService }: HomePageProps) {
     if (status === 200) {
       const crawlsString = localStorage.getItem(CRAWLS) || "[]";
 
-      const currentCrawls = JSON.parse(crawlsString) as CrawlModel[];
+      const currentCrawlers = JSON.parse(crawlsString) as CrawlModel[];
 
       const created_at = new Date().toISOString();
 
-      currentCrawls.push({ keyword, id, created_at });
+      currentCrawlers.push({ keyword, id, created_at });
 
-      const currentCrawlsString = JSON.stringify(currentCrawls);
+      const currentCrawlersString = JSON.stringify(currentCrawlers);
 
-      localStorage.setItem(CRAWLS, currentCrawlsString);
+      localStorage.setItem(CRAWLS, currentCrawlersString);
 
-      fetchCrawls();
+      fetchCrawlers();
       clear();
     }
   };
@@ -84,19 +83,17 @@ export default function HomePage({ crawlService }: HomePageProps) {
 
     setSelectedAccordionId(crawlId);
 
-    fetchCurrentCrawl(crawlId);
+    handleClickRefresh(crawlId);
   };
 
   const handleClearAllClick = () => {
-    const empty = JSON.stringify([]);
+    crawlService.deleteAllCrawlers();
 
-    localStorage.setItem(CRAWLS, empty);
-
-    fetchCrawls();
+    fetchCrawlers();
   };
 
   useEffect(() => {
-    fetchCrawls();
+    fetchCrawlers();
   }, []);
 
   return (
@@ -116,12 +113,12 @@ export default function HomePage({ crawlService }: HomePageProps) {
         onClearAllClick={handleClearAllClick}
       />
       <HomeCrawlList
-        crawls={crawls}
+        crawls={crawlers}
         onAccordionClick={handleAccordionClick}
         selectedAccordionId={selectedAccordionId}
         loading={loading}
         currentCrawl={currentCrawl}
-        onClickRefresh={fetchCurrentCrawl}
+        onClickRefresh={handleClickRefresh}
       />
     </HomePageContainer>
   );

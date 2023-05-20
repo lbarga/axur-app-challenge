@@ -1,4 +1,4 @@
-import { CrawlServiceModel } from "@/model/crawl-service";
+import { CrawlServiceModel } from "@/model/crawl-service-model";
 import HomePage from "@/page/home-page";
 import { crawlService } from "@/service/crawl.service";
 

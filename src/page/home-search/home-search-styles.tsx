@@ -67,7 +67,7 @@ export const HomeSearchError = styled.p`
 export const HomeSearchClearAllButton = styled.button`
   display: flex;
   border: none;
-  background-color: #ff0000;
+  background-color: #bf0000;
   font-size: 16px;
   border-radius: 16px;
   font-weight: bold;

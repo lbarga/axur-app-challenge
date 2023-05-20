@@ -1,5 +1,6 @@
 "use client";
-import { CrawlDataModel, CrawlModel } from "@/model/crawl";
+import { STRING } from "@/constant/string";
+import { CrawlDataModel, CrawlModel } from "@/model/crawl-model";
 import { normalizeDate } from "@/utils/date-formatter";
 import _orderby from "lodash.orderby";
 import {
@@ -24,6 +25,8 @@ type HomeCrawlListProps = {
   onClickRefresh: (crawlId: string) => void;
 };
 
+const { LINKS_FOUND, NOT_FOUND_RECORDS, CARRYING_OUT_SEARCH } = STRING;
+
 export const HomeCrawlList = ({
   crawls,
   onAccordionClick,
@@ -39,7 +42,10 @@ export const HomeCrawlList = ({
 
         return (
           <HomeCrawlContainer key={crawl.id}>
-            <HomeCrawlAccordion onClick={() => onAccordionClick(crawl.id)}>
+            <HomeCrawlAccordion
+              onClick={() => onAccordionClick(crawl.id)}
+              data-testid={`accordion-button-${crawl.id}`}
+            >
               <HomeCrawlKeyword>{crawl.keyword}</HomeCrawlKeyword>
               <div>{normalizeDate(crawl.created_at)}</div>
               {isActive && (
@@ -61,7 +67,7 @@ export const HomeCrawlList = ({
                     aria-hidden="true"
                   ></HomeCrawlLoader>
                 )}
-                {!loading && (
+                {!loading && isActive && (
                   <>
                     <HomeCrawlStatusContainer>
                       <HomeCrawlStatusTag
@@ -70,7 +76,10 @@ export const HomeCrawlList = ({
                         {currentCrawl?.status}
                       </HomeCrawlStatusTag>
                       <div>
-                        <p>Links found: {currentCrawl?.urls.length} </p>
+                        <p>
+                          {LINKS_FOUND}
+                          {currentCrawl?.urls.length}{" "}
+                        </p>
                       </div>
                       {currentCrawl?.status === "active" && (
                         <HomeCrawlRefreshButton
@@ -81,7 +90,7 @@ export const HomeCrawlList = ({
                       )}
                       {currentCrawl?.status !== "active" && <div />}
                     </HomeCrawlStatusContainer>
-                    {currentCrawl?.urls.map((url) => (
+                    {currentCrawl?.urls.map((url: string) => (
                       <a href={url} key={url}>
                         {url}
                       </a>
@@ -89,16 +98,13 @@ export const HomeCrawlList = ({
                     {currentCrawl?.urls.length === 0 &&
                       currentCrawl.status !== "active" && (
                         <HomeCrawlEmptyContainer>
-                          <p>We did not find any records for your search.</p>
+                          <p>{NOT_FOUND_RECORDS}</p>
                         </HomeCrawlEmptyContainer>
                       )}
                     {currentCrawl?.urls.length === 0 &&
                       currentCrawl.status === "active" && (
                         <HomeCrawlEmptyContainer>
-                          <p>
-                            we are carrying out your search you can see updates
-                            by clicking on the refresh button.
-                          </p>
+                          <p>{CARRYING_OUT_SEARCH} </p>
                         </HomeCrawlEmptyContainer>
                       )}
                   </>

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const HomeCrawlContainer = styled.div`
   display: flex;
@@ -109,11 +109,21 @@ export const HomeCrawlEmptyContainer = styled.div`
   justify-content: center;
 `;
 
+const rotateAnimation = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
 export const HomeCrawlLoader = styled.i`
   display: flex;
   font-size: 80px;
   justify-content: center;
   align-items: center;
+  animation: ${rotateAnimation} 2s linear infinite;
 `;
 
 export const HomeCrawlKeyword = styled.div`

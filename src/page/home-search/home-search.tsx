@@ -34,7 +34,10 @@ export default function HomeSearch({
             setKeyword(event.target.value);
           }}
         />
-        <HomePageSearchButton onClick={onSearchClick}>
+        <HomePageSearchButton
+          onClick={onSearchClick}
+          data-testid="search-button"
+        >
           <i className="fa fa-search" aria-hidden="true"></i>
         </HomePageSearchButton>
       </HomePageSearchContainer>
