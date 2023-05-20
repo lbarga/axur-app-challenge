@@ -1,6 +1,13 @@
 # Axur App Test
 
-**Application Setup**
+## Branches
+
+The project has two versions available in the following branches:
+
+- `main` and `v2-mongodb`: This branch contains the final version of the test, which is a monorepo that stores data in MongoDB.
+- `v1-local-storage`: This version contains only the frontend, and the search history is saved in the browser's local storage.
+
+## Application Setup
 
 This repository contains a monorepo with a frontend and backend application.
 
@@ -50,6 +57,8 @@ Please make sure you have Node.js and Yarn installed on your system before runni
 
 ## Some images:
 
-<img src="https://raw.githubusercontent.com/lbarga/axur-test-app/v2-mongodb/images/1.png?token=GHSAT0AAAAAACCEZ32URF362GYK3R3RCWU4ZDJKQ5A" alt="Descrição da imagem" width="600px" height="300px" />
-<img src="https://raw.githubusercontent.com/lbarga/axur-test-app/v2-mongodb/images/2.png?token=GHSAT0AAAAAACCEZ32UXH276JZAO6YZ6A54ZDJKSXA" alt="Descrição da imagem" width="600px" height="300px" />
-<img src="https://raw.githubusercontent.com/lbarga/axur-test-app/v2-mongodb/images/3.png?token=GHSAT0AAAAAACCEZ32UUSPMMEE3HGKXLYEYZDJKS5A" alt="Descrição da imagem" width="600px" height="300px" />
+You can find this images in images folder to.
+
+<img src="https://raw.githubusercontent.com/lbarga/axur-test-app/v2-mongodb/images/1.png?token=GHSAT0AAAAAACCEZ32VPKHAEDKPN7RX7QJ6ZDJK3IQ" alt="Descrição da imagem" width="600px" height="300px" />
+<img src="https://raw.githubusercontent.com/lbarga/axur-test-app/main/images/2.png?token=GHSAT0AAAAAACCEZ32VCHFAR2LMXDQHXNRYZDJK4KA" alt="Descrição da imagem" width="600px" height="300px" />
+<img src="https://raw.githubusercontent.com/lbarga/axur-test-app/main/images/3.png?token=GHSAT0AAAAAACCEZ32VS7B33PHY74L4U544ZDJK4OQ" alt="Descrição da imagem" width="600px" height="300px" />
