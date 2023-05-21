@@ -1,34 +1,36 @@
-const express = require("express");
+import express, { Request, Response } from "express";
+import { Crawler } from "../models/crawlers";
 const router = express.Router();
-const Crawlers = require("../models/crawlers");
 
-router.post("/", async (req, res) => {
+router.post("/", async (req: Request, res: Response) => {
   try {
-    await Crawlers.create({
+    const crawler = new Crawler({
       crawler_id: req.body.crawler_id,
       keyword: req.body.keyword,
       created_at: req.body.created_at,
     });
 
+    await crawler.save();
+
     res.status(201).json({ message: "Crawl successfully inserted!" });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
 });
 
-router.get("/", async (req, res) => {
+router.get("/", async (req: Request, res: Response) => {
   try {
-    const crawlers = await Crawlers.find();
+    const crawlers = await Crawler.find();
 
     res.status(201).json(crawlers);
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
 });
 
-router.delete("/", async (req, res) => {
+router.delete("/", async (req: Request, res: Response) => {
   try {
-    await Crawlers.collection.drop();
+    await Crawler.collection.drop();
 
     res
       .status(200)

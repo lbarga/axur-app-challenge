@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const mongoose = require("mongoose");
+export const mongoose = require("mongoose");
 require("dotenv").config();
 
 const port = 4000;
@@ -23,4 +23,4 @@ mongoose
       console.log(`Server running on port http://localhost:${port}/`);
     });
   })
-  .catch((err) => console.log(err));
+  .catch((err: any) => console.log(err));
