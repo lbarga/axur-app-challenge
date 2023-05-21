@@ -1,16 +1,18 @@
-const express = require("express");
-const cors = require("cors");
-export const mongoose = require("mongoose");
-require("dotenv").config();
+import cors from "cors";
+import dotenv from "dotenv";
+import express from "express";
+import mongoose from "mongoose";
+import crawlersRoutes from "./routes/crawlers";
+
+dotenv.config();
 
 const port = 4000;
-const dbUrl = process.env.MONGODB_URL;
+const dbUrl = process.env.MONGODB_URL as string;
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const crawlersRoutes = require("./routes/crawlers");
 
 app.use("/crawlers", crawlersRoutes);
 

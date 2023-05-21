@@ -1,11 +1,11 @@
+import express from "express";
+import request from "supertest";
 import { Crawler } from "../models/crawlers";
-const request = require("supertest");
-const express = require("express");
-const router = require("./crawlers");
+import crawlersRoutes from "./crawlers";
 
 const app = express();
 app.use(express.json());
-app.use("/", router);
+app.use("/", crawlersRoutes);
 
 describe("/crawlers", () => {
   afterEach(() => {

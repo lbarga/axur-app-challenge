@@ -1,8 +1,9 @@
 import express, { Request, Response } from "express";
 import { Crawler } from "../models/crawlers";
-const router = express.Router();
 
-router.post("/", async (req: Request, res: Response) => {
+const crawlersRoutes = express.Router();
+
+crawlersRoutes.post("/", async (req: Request, res: Response) => {
   try {
     const crawler = new Crawler({
       crawler_id: req.body.crawler_id,
@@ -18,7 +19,7 @@ router.post("/", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/", async (req: Request, res: Response) => {
+crawlersRoutes.get("/", async (req: Request, res: Response) => {
   try {
     const crawlers = await Crawler.find();
 
@@ -28,7 +29,7 @@ router.get("/", async (req: Request, res: Response) => {
   }
 });
 
-router.delete("/", async (req: Request, res: Response) => {
+crawlersRoutes.delete("/", async (req: Request, res: Response) => {
   try {
     await Crawler.collection.drop();
 
@@ -42,4 +43,4 @@ router.delete("/", async (req: Request, res: Response) => {
   }
 });
 
-module.exports = router;
+export default crawlersRoutes;
