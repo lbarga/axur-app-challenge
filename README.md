@@ -4,7 +4,8 @@
 
 The project has two versions available in the following branches:
 
-- `main` and `v2-mongodb`: This branch contains the final version of the test, which is a monorepo that stores data in MongoDB.
+- `main` and `v3-mongodb`: This branch contains the final version of the test, which is a monorepo that stores data in MongoDB with typescript.
+- `v2-mongodb`: This branch contains the final version of the test, which is a monorepo that stores data in MongoDB without typescript.
 - `v1-local-storage`: This version contains only the frontend, and the search history is saved in the browser's local storage.
 
 ## Application Setup
