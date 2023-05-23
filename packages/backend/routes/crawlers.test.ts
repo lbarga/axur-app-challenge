@@ -53,7 +53,7 @@ describe("/crawlers", () => {
     const response = await request(app).get("/");
 
     expect(Crawler.find).toHaveBeenCalledTimes(1);
-    expect(response.status).toBe(201);
+    expect(response.status).toBe(200);
     expect(response.body).toEqual(crawlersData);
   });
 

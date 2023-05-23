@@ -23,7 +23,7 @@ crawlersRoutes.get("/", async (req: Request, res: Response) => {
   try {
     const crawlers = await Crawler.find();
 
-    res.status(201).json(crawlers);
+    res.status(200).json(crawlers);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
