@@ -58,7 +58,8 @@ Please make sure you have Node.js and Yarn installed on your system before runni
 
 ## Preview:
 You can find this images in images folder.
-![Screenshot from 2023-05-20 18-54-36](https://github.com/lbarga/axur-app-challenge/assets/17840539/c4881e3d-10d8-49a7-af87-25c2f91ee602)
-![Screenshot from 2023-05-20 18-54-00](https://github.com/lbarga/axur-app-challenge/assets/17840539/d66ee255-cdad-4af1-b9f7-a891676d647e)
-![Screenshot from 2023-05-20 18-54-08](https://github.com/lbarga/axur-app-challenge/assets/17840539/a7c9bf66-23d2-46e9-a4d0-5f28337265b9)
+![1](https://github.com/lbarga/axur-challenge/assets/17840539/22a2a298-ab1c-4bff-9974-fc3602e159f3)
+![2](https://github.com/lbarga/axur-challenge/assets/17840539/2ddf2856-74c7-4b17-ac41-9b721cabed11)
+![3](https://github.com/lbarga/axur-challenge/assets/17840539/7453b9a2-b37c-4f0c-8865-9e6665bf9c60)
+
 
